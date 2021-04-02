@@ -27,5 +27,5 @@ There is a variables section on top of the script that is used to define default
 If default values are present, they can be overridden from the command line, this is how you provision a new AMI from the command line using packer:
 
 ```
-sudo packer build -debug "base_ami_id=ami-******" provision-windows.json
+sudo packer build -var "base_ami_id=ami-******" provision-windows.json
 ```
