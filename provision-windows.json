@@ -1,0 +1,80 @@
+{
+  "variables": {
+    "base_ami_id": ""
+  },
+
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-west-2",
+      "iam_instance_profile": "<role_name>",
+      "source_ami": "{{user `base_ami_id`}}",
+      "instance_type": "t2.micro",
+      "communicator": "winrm",
+      "winrm_username": "Administrator",
+      "ami_name": "WindowsAMI{{isotime \"2006-01-02\"}}",
+      "user_data_file": "./Scripts/setup_winrm.ps1",
+      "ami_block_device_mappings": [ {
+            "device_name": "/dev/sda1",
+            "volume_type": "gp2",
+            "volume_size": 64,
+            "delete_on_termination": true
+        } ],
+        "launch_block_device_mappings": [ {
+            "device_name": "/dev/sda1",
+            "volume_type": "gp2",
+            "volume_size": 64,
+            "delete_on_termination": true
+        } ]
+    }
+  ],
+
+  "provisioners" : [
+    {
+      "type": "powershell",
+      "scripts": [
+        "./Scripts/EC2Config.ps1",
+        "./Scripts/BundleConfig.ps1",
+        "./Scripts/SetupBaseRequirementsAndTools.ps1",
+        "./Scripts/DownloadAndInstallS3Artifacts.ps1",
+        "./Scripts/users.ps1"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "./Tests",
+      "destination": "C:/Windows/Temp"
+    },
+    {
+      "type": "windows-shell",
+      "inline": ["Install-WindowsFeature RDS-Licensing –IncludeAllSubFeature -IncludeManagementTools"] 
+    },
+    {
+      "type": "windows-shell",
+      "inline": ["tzutil /s \"US Eastern Standard Time\""]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\SendWindowsIsReady.ps1 -Schedule"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\SysprepInstance.ps1 -NoRestart"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeInstance.ps1 -Schedule"
+      ]
+    }
+  ],
+  "post-processors": [
+    {  
+      "type": "manifest"
+    }
+  ]
+}

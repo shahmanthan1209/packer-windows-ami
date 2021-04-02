@@ -1,0 +1,29 @@
+{
+    "config": {
+        "downloadLocation": "c:\\Software"
+    },
+    "software": [
+    {
+        "name": "DBeaver",
+        "description" : "Free Universal Database Tool",
+        "url": "https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe",
+        "arguments" : "/qn /VerySilent",
+        "path": "C:\\Program Files\\DBeaver\\dbeaver",
+        "cookie": null,
+        "downloadOnlyTo" : null,
+        "type" : null,
+        "executeAfter" : null
+    },
+    {
+        "name": "VSCode",
+        "description" : "VSCode",
+        "url": "",
+        "arguments" : "/qn /VerySilent",
+        "path": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Microsoft VS Code\\Code",
+        "cookie": null,
+        "downloadOnlyTo" : null,
+        "type" : null,
+        "executeAfter" : null
+    }
+    ]
+}
