@@ -29,3 +29,5 @@ If default values are present, they can be overridden from the command line, thi
 ```
 sudo packer build -var "base_ami_id=ami-******" provision-windows.json
 ```
+
+Source: https://github.com/oerazo/packer-windows-ami
