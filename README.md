@@ -10,6 +10,7 @@ Sometimes it's quite challenging to find a standard way of installing software o
 PLEASE do not set any credentials in files that are checked in your code repository.
 
 ## Key Features:
+ - Download files from S3 securely
  - Creation of users from CSV and adding them to Windows Local Groups and setting up password retention policy
  - Adding Remote Desktop Server Licensing feature
  - Changing the internet gateway route as windows machine won't have open internet access
@@ -26,5 +27,5 @@ There is a variables section on top of the script that is used to define default
 If default values are present, they can be overridden from the command line, this is how you provision a new AMI from the command line using packer:
 
 ```
-packer build -var "base_ami_id=ami-******" provision-windows.json
+sudo packer build -debug "base_ami_id=ami-******" provision-windows.json
 ```
